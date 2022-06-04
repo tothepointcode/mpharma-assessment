@@ -5,7 +5,7 @@ import { ActivityIndicator } from "react-native";
 
 // colors
 import { colors } from "./../components/colors";
-const { neutral, gray1, gray2, gray3, accent, success, fail } = colors;
+const { neutral, gray1, accent } = colors;
 
 // custom components
 import BigText from "../components/Texts/BigText";

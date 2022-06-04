@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import styled from "styled-components/native";
+import { ActivityIndicator } from "react-native";
 
 // colors
 import { colors } from "./../components/colors";
@@ -142,15 +143,26 @@ const Details = ({ navigation, route }) => {
                 Edit <Ionicons name="pencil" size={16} color={accent} />
               </ModifierButton>
 
-              <ModifierButton
-                textStyle={{ color: accent, fontStyle: "italic" }}
-                onPress={() => {
-                  // trigger delete
-                  handleDelete(index);
-                }}
-              >
-                Delete <Ionicons name="trash-bin" size={16} color={accent} />
-              </ModifierButton>
+              {!isDeleting && (
+                <ModifierButton
+                  textStyle={{ color: accent, fontStyle: "italic" }}
+                  onPress={() => {
+                    // trigger delete
+                    handleDelete(index);
+                  }}
+                >
+                  Delete <Ionicons name="trash-bin" size={16} color={accent} />
+                </ModifierButton>
+              )}
+
+              {isDeleting && (
+                <ModifierButton
+                  disabled
+                  textStyle={{ color: accent, fontStyle: "italic" }}
+                >
+                  <ActivityIndicator size="small" color={accent} />
+                </ModifierButton>
+              )}
             </>
           </ModifiersView>
         </>

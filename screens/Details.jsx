@@ -55,7 +55,7 @@ const ModifierButton = styled(RegularButton)`
 `;
 
 const Details = ({ navigation, route }) => {
-  const { id, name, prices } = route?.params;
+  const { id, name, prices, index, currentPrice } = route?.params;
 
   return (
     <MainContainer>
@@ -72,7 +72,7 @@ const Details = ({ navigation, route }) => {
           <CardDetail
             iconByIonicon={"cash"}
             valuePreFix="GHS "
-            value={prices[0].price}
+            value={currentPrice}
             style={{ marginBottom: 15 }}
           />
 
@@ -80,7 +80,7 @@ const Details = ({ navigation, route }) => {
             style={{ fontSize: 20 }}
           >{`Price History`}</SectionTitle>
 
-          {prices &&
+          {prices?.length &&
             prices.map((item, index) => {
               return <PriceItem key={index} {...item} />;
             })}
@@ -93,9 +93,14 @@ const Details = ({ navigation, route }) => {
             <>
               <ModifierButton
                 textStyle={{ color: accent, fontStyle: "italic" }}
-                disabled={true}
-                nPress={() => {
+                onPress={() => {
                   // trigger edit
+                  navigation.navigate("DataEntry", {
+                    id,
+                    name,
+                    price: currentPrice.toString(),
+                    index,
+                  });
                 }}
               >
                 Edit <Ionicons name="pencil" size={16} color={accent} />
@@ -103,7 +108,6 @@ const Details = ({ navigation, route }) => {
 
               <ModifierButton
                 textStyle={{ color: accent, fontStyle: "italic" }}
-                disabled={true}
                 onPress={() => {
                   // trigger delete
                 }}

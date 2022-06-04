@@ -41,7 +41,7 @@ const CardList = ({ data, fetchingProducts, fetchProducts }) => {
       }}
       showsVerticalScrollIndicator={false}
       keyExtractor={({ id }) => id.toString()}
-      renderItem={({ item }) => <CardItem {...item} />}
+      renderItem={({ item, index }) => <CardItem {...item} index={index} />}
       onRefresh={fetchProducts}
       refreshing={fetchingProducts}
       ListEmptyComponent={emptyComponent}

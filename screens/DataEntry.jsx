@@ -27,6 +27,9 @@ const DataEntry = ({ route, navigation }) => {
   // product context
   const { products, setProducts } = useContext(ProductContext);
 
+  const editId = route?.params?.index;
+  const productId = route?.params?.id;
+
   const handleOnSubmit = async ({ name, price }, setSubmitting) => {
     try {
       // handle data addition or edit here
@@ -57,10 +60,44 @@ const DataEntry = ({ route, navigation }) => {
     }
   };
 
+  const handleEdit = async ({ name, price }, setSubmitting) => {
+    try {
+      // handle data edit
+
+      const updatedData = {
+        id: productId,
+        name,
+        prices: [
+          ...products[editId]?.prices,
+          {
+            id: uuidv4(),
+            price,
+            date: Date.now(),
+          },
+        ],
+      };
+
+      products[editId] = updatedData;
+
+      const updatedDataList = [...products];
+
+      // // update storages
+      await saveData("mPharmaProducts", JSON.stringify(updatedDataList));
+      await setProducts(updatedDataList);
+
+      // move to back to details page
+      navigation.navigate("Details", { ...updatedData, currentPrice: price });
+      setSubmitting(false);
+    } catch (error) {
+      alert("Updating failed: " + error);
+      setSubmitting(false);
+    }
+  };
+
   return (
     <MainContainer>
       <RegularText style={{ marginBottom: 15, textAlign: "left" }}>
-        Enter product details
+        {route?.params?.id ? `Update product details` : `Enter product details`}
       </RegularText>
 
       <Formik
@@ -74,7 +111,10 @@ const DataEntry = ({ route, navigation }) => {
             alert("Please fill in all fields");
             setSubmitting(false);
           } else {
-            handleOnSubmit(values, setSubmitting);
+            if (route?.params?.id) {
+              return handleEdit(values, setSubmitting);
+            }
+            return handleOnSubmit(values, setSubmitting);
           }
         }}
       >

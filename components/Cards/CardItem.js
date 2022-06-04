@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -39,12 +39,31 @@ import placeholder from "./../../assets/imgs/drug_placeholder.jpg";
 
 const CardItem = (props) => {
   const navigation = useNavigation();
+  const [currentPrice, setCurrentPrice] = useState("");
 
   const handleOnPress = () => {
     navigation.navigate("Details", {
       ...props,
+      currentPrice,
     });
   };
+
+  const deduceCurrentPrice = (prices) => {
+    let latest = 0;
+
+    for (let i = 0; i < prices.length; i++) {
+      if (+new Date(prices[latest].date) < +new Date(prices[i].date)) {
+        latest = i;
+      }
+    }
+
+    setCurrentPrice(prices[latest]?.price);
+    return prices[latest]?.price;
+  };
+
+  useEffect(() => {
+    deduceCurrentPrice(props.prices);
+  });
 
   return (
     <CardRow onPress={handleOnPress}>
@@ -55,7 +74,7 @@ const CardItem = (props) => {
         <CardDetail
           iconByIonicon={"cash"}
           valuePreFix="GHS "
-          value={props?.prices[0]?.price}
+          value={currentPrice}
         />
       </RightView>
     </CardRow>

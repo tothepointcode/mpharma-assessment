@@ -8,6 +8,7 @@ const Stack = createStackNavigator();
 
 // Screens
 import Home from "./../screens/Home";
+import Details from "./../screens/Details";
 
 //colors
 import { colors } from "./../components/colors";
@@ -33,6 +34,7 @@ const RootStack = () => {
         }}
       >
         <Stack.Screen name="Products" component={Home} />
+        <Stack.Screen name="Details" component={Details} />
       </Stack.Navigator>
     </NavigationContainer>
   );

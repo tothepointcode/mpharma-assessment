@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
 // custom components
@@ -17,10 +17,15 @@ import { dataAPIUrl, fetchData, saveData } from "../components/shared";
 import { colors } from "./../components/colors";
 const { gray2 } = colors;
 
+// product context
+import { ProductContext } from "./../components/Contexts/ProductContext";
+
 const Home = ({ navigation }) => {
+  // product context
+  const { products, setProducts } = useContext(ProductContext);
+
   // products
   const [fetchingProducts, setfetchingProducts] = useState(false);
-  const [availableProducts, setAvailableProducts] = useState([]);
 
   const fetchProductsFromAPI = async () => {
     try {
@@ -56,7 +61,7 @@ const Home = ({ navigation }) => {
       }
 
       // make products accessible to app
-      setAvailableProducts(products);
+      setProducts(products);
       setfetchingProducts(false);
     } catch (error) {
       alert("Products Fetch failed" + error);
@@ -72,7 +77,7 @@ const Home = ({ navigation }) => {
     <MainContainer>
       <RegularText>Available Products</RegularText>
       <CardList
-        data={availableProducts}
+        data={products}
         fetchingProducts={fetchingProducts}
         fetchProducts={fetchProducts}
       />

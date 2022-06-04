@@ -36,7 +36,13 @@ const RootStack = () => {
       >
         <Stack.Screen name="Products" component={Home} />
         <Stack.Screen name="Details" component={Details} />
-        <Stack.Screen name="DataEntry" component={DataEntry} />
+        <Stack.Screen
+          name="DataEntry"
+          component={DataEntry}
+          options={{
+            title: "Data Entry",
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

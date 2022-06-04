@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import styled from "styled-components/native";
 
@@ -7,7 +7,6 @@ import { colors } from "./../components/colors";
 const { neutral, gray1, gray2, gray3, accent, success, fail } = colors;
 
 // custom components
-import RegularText from "../components/Texts/RegularText";
 import BigText from "../components/Texts/BigText";
 import MainContainer from "../components/Containers/MainContainer";
 import CardDetail from "../components/Cards/CardDetail";
@@ -54,8 +53,45 @@ const ModifierButton = styled(RegularButton)`
   width: 45%;
 `;
 
+// product context
+import { ProductContext } from "./../components/Contexts/ProductContext";
+
+// api route
+import { saveData } from "../components/shared";
+
 const Details = ({ navigation, route }) => {
   const { id, name, prices, index, currentPrice } = route?.params;
+
+  // product context
+  const { products, setProducts } = useContext(ProductContext);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const handleDelete = async () => {
+    try {
+      // handle delete
+      setIsDeleting(true);
+
+      const updatedData = {
+        ...products[index],
+        deleted: true,
+      };
+
+      products[index] = updatedData;
+
+      const updatedDataList = [...products];
+
+      // // update storages
+      await saveData("mPharmaProducts", JSON.stringify(updatedDataList));
+      await setProducts(updatedDataList);
+
+      // move to back to details page
+      navigation.navigate("Products");
+      setIsDeleting(false);
+    } catch (error) {
+      alert("Deleting failed: " + error);
+      setIsDeleting(false);
+    }
+  };
 
   return (
     <MainContainer>
@@ -110,6 +146,7 @@ const Details = ({ navigation, route }) => {
                 textStyle={{ color: accent, fontStyle: "italic" }}
                 onPress={() => {
                   // trigger delete
+                  handleDelete(index);
                 }}
               >
                 Delete <Ionicons name="trash-bin" size={16} color={accent} />

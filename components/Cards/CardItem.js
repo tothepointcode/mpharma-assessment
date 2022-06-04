@@ -65,6 +65,23 @@ const CardItem = (props) => {
     deduceCurrentPrice(props.prices);
   });
 
+  if (props.deleted) {
+    return (
+      <CardRow style={{ opacity: 0.4 }} disabled={true} onPress={handleOnPress}>
+        <CardAvi img={placeholder} />
+
+        <RightView>
+          <ProductTitle>{props.name}</ProductTitle>
+          <CardDetail
+            iconByIonicon={"cash"}
+            valuePreFix="GHS "
+            value={currentPrice}
+          />
+        </RightView>
+      </CardRow>
+    );
+  }
+
   return (
     <CardRow onPress={handleOnPress}>
       <CardAvi img={placeholder} />

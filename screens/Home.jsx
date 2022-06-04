@@ -62,14 +62,12 @@ const sampleData = [
   },
 ];
 
-const Home = () => {
+const Home = ({ navigation }) => {
   // products
   const [fetchingProducts, setfetchingProducts] = useState(false);
   const [availableProducts, setavailableProducts] = useState([...sampleData]);
 
-  const fetchProducts = async () => {
-    
-  };
+  const fetchProducts = async () => {};
 
   return (
     <MainContainer>
@@ -82,6 +80,7 @@ const Home = () => {
       <FloatingButton
         onPress={() => {
           // move to add page
+          navigation.navigate("DataEntry");
         }}
       >
         <Ionicons name="add" size={50} color={gray2} />

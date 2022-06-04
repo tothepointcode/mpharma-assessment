@@ -1,9 +1,15 @@
 import React, { useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
 
 // custom components
 import MainContainer from "../components/Containers/MainContainer";
 import RegularText from "../components/Texts/RegularText";
 import CardList from "../components/Cards/CardList";
+import FloatingButton from "../components/Buttons/FloatingButton";
+
+// colors
+import { colors } from "./../components/colors";
+const { gray2 } = colors;
 
 const sampleData = [
   {
@@ -73,6 +79,13 @@ const Home = () => {
         fetchingProducts={fetchingProducts}
         fetchProducts={fetchProducts}
       />
+      <FloatingButton
+        onPress={() => {
+          // move to add page
+        }}
+      >
+        <Ionicons name="add" size={50} color={gray2} />
+      </FloatingButton>
     </MainContainer>
   );
 };

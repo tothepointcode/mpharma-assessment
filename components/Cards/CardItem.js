@@ -55,7 +55,7 @@ const CardItem = (props) => {
         <CardDetail
           iconByIonicon={"cash"}
           valuePreFix="GHS "
-          value={props?.prices[0].price}
+          value={props?.prices[0]?.price}
         />
       </RightView>
     </CardRow>
